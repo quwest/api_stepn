@@ -16,7 +16,7 @@ class UncorrectTimeframe(ex.HTTPException):
 
 class UncorrectId(ex.HTTPException):
     code = 204
-    description = "we don't have this project id"
+    description = 'we do not have this project id'
 
 
 default_exceptions[203] = UncorrectTimeframe
