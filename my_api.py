@@ -67,10 +67,6 @@ class Candle(Resource):
         else:
             return abort(203)
 
-        if candle_data == 205:
-            print(candle_data)
-            return abort(205)
-
         return candle_data[0:limit]
 
     def post(self):
