@@ -18,9 +18,14 @@ class UncorrectId(ex.HTTPException):
     code = 205
     description = f'we do not have this project id, check it in /projects'
 
+class UncorrectDataFormat(ex.HTTPException):
+    code = 206
+    description = 'uncorrect data format, write it in format dd.mm.yyyy'
+
 
 default_exceptions[203] = UncorrectTimeframe
 default_exceptions[205] = UncorrectId
+default_exceptions[206] = UncorrectDataFormat
 abort = Aborter()
 
 app = Flask(__name__)
@@ -35,7 +40,12 @@ class Candle(Resource):
     def get(self, project_id: int, timeframe: int, start_time: str, limit: int):
         if project_id not in self.db.get_all_ids():
             return abort(205)
-        start_time = datetime.strptime(start_time, '%d.%m.%Y')
+
+        try:
+            start_time = datetime.strptime(start_time, '%d.%m.%Y')
+        except ValueError:
+            return abort(206)
+
         start_time = int(round(start_time.timestamp() * 1000))
 
         full_data = self.db.get_parsed_values(project_id, start_time)
