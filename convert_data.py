@@ -35,7 +35,7 @@ class CandleData():
 
     def make_candles(self, period: int) -> list or int:
         data_periods = self.__make_periods(period)
-        if data_periods=='error1':
+        if data_periods=='errorid':
             return 205
 
         candle = []
