@@ -22,10 +22,15 @@ class UncorrectDataFormat(ex.HTTPException):
     code = 206
     description = 'uncorrect data format, write it in format dd.mm.yyyy'
 
+class NoData(ex.HTTPException):
+    code = 206
+    description = 'there is no data from this date'
+
 
 default_exceptions[203] = UncorrectTimeframe
 default_exceptions[205] = UncorrectId
 default_exceptions[206] = UncorrectDataFormat
+default_exceptions[207] = UncorrectDataFormat
 abort = Aborter()
 
 app = Flask(__name__)
@@ -76,6 +81,9 @@ class Candle(Resource):
             candle_data = candle.make_candles(10080)
         else:
             return abort(203)
+
+        if not candle_data:
+            return abort(207)
 
         return candle_data[0:limit]
 
