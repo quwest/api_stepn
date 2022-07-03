@@ -20,6 +20,7 @@ class UncorrectId(ex.HTTPException):
 
 
 default_exceptions[203] = UncorrectTimeframe
+default_exceptions[204] = UncorrectId
 abort = Aborter()
 
 app = Flask(__name__)
