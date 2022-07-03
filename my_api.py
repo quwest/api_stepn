@@ -15,12 +15,12 @@ class UncorrectTimeframe(ex.HTTPException):
 
 
 class UncorrectId(ex.HTTPException):
-    code = 204
+    code = 205
     description = 'we do not have this project id'
 
 
 default_exceptions[203] = UncorrectTimeframe
-default_exceptions[204] = UncorrectId
+default_exceptions[205] = UncorrectId
 abort = Aborter()
 
 app = Flask(__name__)
@@ -65,7 +65,8 @@ class Candle(Resource):
             return abort(203)
 
         if candle_data == 204:
-            return abort(204)
+            print(candle_data)
+            return abort(205)
 
         return candle_data[0:limit]
 
