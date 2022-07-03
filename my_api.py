@@ -54,10 +54,14 @@ class Candle(Resource):
         start_time = int(round(start_time.timestamp() * 1000))
 
         full_data = self.db.get_parsed_values(project_id, start_time)
+
+        if not full_data:
+            return abort(207)
+
         price_and_time = [i[2:4] for i in full_data]
         candle = CandleData(price_and_time)
 
-        if timeframe == '1m':
+        if timeframe ==  '1m':
             candle_data = candle.make_candles(1)
         elif timeframe == '2m':
             candle_data = candle.make_candles(2)
@@ -81,9 +85,6 @@ class Candle(Resource):
             candle_data = candle.make_candles(10080)
         else:
             return abort(203)
-
-        if not candle_data:
-            return abort(207)
 
         return candle_data[0:limit]
 
