@@ -14,6 +14,11 @@ class UncorrectTimeframe(ex.HTTPException):
     description = 'timeframe should be in :1m, 2m,5m,15m,30m,1h,2h,8h,1d,1w'
 
 
+class UncorrectId(ex.HTTPException):
+    code = 204
+    description = "we don't have this project id"
+
+
 default_exceptions[203] = UncorrectTimeframe
 abort = Aborter()
 
@@ -58,6 +63,9 @@ class Candle(Resource):
         else:
             return abort(203)
 
+        if candle_data == 204:
+            return abort(204)
+
         return candle_data[0:limit]
 
     def post(self):
@@ -83,8 +91,8 @@ class Projects(Resource):
         res_dict = {}
         for project in projects:
             res_dict[project[0]] = {'section': project[1]}, \
-                                   {'filters': project[2]},\
-                                   {'chain': self.db.get_chain_value(project[0])},\
+                                   {'filters': project[2]}, \
+                                   {'chain': self.db.get_chain_value(project[0])}, \
                                    {'create_time': [project[3], datetime.fromtimestamp(project[3])]}
         js = jsonify(res_dict)
         return js

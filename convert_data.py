@@ -31,8 +31,11 @@ class CandleData():
 
         return res
 
-    def make_candles(self, period: int) -> list:
-        data_periods = self.__make_periods(period)
+    def make_candles(self, period: int) -> list or int:
+        try:
+            data_periods = self.__make_periods(period)
+        except IndexError:
+            return 204
         candle = []
         for data_period in data_periods:
             values = data_period.values()
