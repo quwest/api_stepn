@@ -113,7 +113,8 @@ class Projects(Resource):
             res_dict[project[0]] = {'section': project[1]}, \
                                    {'filters': project[2]}, \
                                    {'chain': self.db.get_chain_value(project[0])}, \
-                                   {'create_time': [project[3], datetime.fromtimestamp(project[3])]}
+                                   {'create_time': [project[3], datetime.fromtimestamp(project[3])]},\
+                                   {'is_active': project[4]}
         js = jsonify(res_dict)
         return js
 
