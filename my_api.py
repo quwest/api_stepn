@@ -30,7 +30,7 @@ class NoData(ex.HTTPException):
 default_exceptions[203] = UncorrectTimeframe
 default_exceptions[205] = UncorrectId
 default_exceptions[206] = UncorrectDataFormat
-default_exceptions[207] = UncorrectDataFormat
+default_exceptions[207] = NoData
 abort = Aborter()
 
 app = Flask(__name__)
