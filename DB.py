@@ -29,7 +29,7 @@ class DB():
             return ''
 
     def get_project_id(self, section: str, filters: str) -> int:
-        data= self.get_projects()
+        data = self.get_projects()
         for i in data:
             if section == i[1] and filters == i[2]:
                 return int(i[0])
@@ -43,6 +43,17 @@ class DB():
         data = self.cursor.fetchall()
 
         return data
+
+    def get_all_ids(self) -> list:
+        ids = []
+
+        self.cursor.execute('SELECT id FROM projects')
+        data = self.cursor.fetchall()
+        for i in data:
+            ids.append(i[0])
+
+
+        return ids
 
     def __get_max_value(self) -> int:
         self.cursor.execute('SELECT max(id) FROM projects')
@@ -64,9 +75,7 @@ class DB():
 
 if __name__ == '__main__':
     db = DB()
-    time_1=time.time()
-    values=db.get_projects()
-    print('time= ', time.time()-time_1)
-    print(values)
+    ids=db.get_all_ids()
+    print(ids)
 
 

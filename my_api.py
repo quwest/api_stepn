@@ -30,8 +30,11 @@ api = Api(app)
 class Candle(Resource):
     def __init__(self):
         self.db = DB()
+        self.ids=self.db.get_all_ids()
 
     def get(self, project_id: int, timeframe: int, start_time: str, limit: int):
+        if project_id not in self.db.get_all_ids():
+            return abort(205)
         start_time = datetime.strptime(start_time, '%d.%m.%Y')
         start_time = int(round(start_time.timestamp() * 1000))
 
