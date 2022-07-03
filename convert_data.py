@@ -12,11 +12,13 @@ class CandleData():
 
         return res_dict
 
-    def __make_periods(self, time_interval_minutes: int) -> list:
+    def __make_periods(self, time_interval_minutes: int) -> list or str:
         interval = {}
         res = []
-
-        start_time = self.list_with_time[0]
+        try:
+            start_time = self.list_with_time[0]
+        except IndexError:
+            return 'errorid'
         time_interval = time_interval_minutes * 60 * 1100
 
         for time in self.list_with_time:
@@ -32,10 +34,10 @@ class CandleData():
         return res
 
     def make_candles(self, period: int) -> list or int:
-        try:
-            data_periods = self.__make_periods(period)
-        except IndexError:
-            return 204
+        data_periods = self.__make_periods(period)
+        if data_periods=='error1':
+            return 205
+
         candle = []
         for data_period in data_periods:
             values = data_period.values()
