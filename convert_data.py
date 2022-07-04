@@ -32,7 +32,8 @@ class CandleData():
 
     def make_candles(self, period: int) -> list:
         data_periods = self.__make_periods(period)
-        print(data_periods)
+        for i in data_periods:
+            print(len(i))
         candle = []
         for data_period in data_periods:
             values = data_period.values()
@@ -44,7 +45,7 @@ class CandleData():
 
             candle.append([open_time, open, maximum, minimum, close, 0])
 
-        print('all_data: ', len(self.list_with_time), 'periods: ', len(data_periods), ((len(self.list_with_time)//6==len(data_periods)-1)))
+        #print('all_data: ', len(self.list_with_time), 'periods: ', len(data_periods), ((len(self.list_with_time)//6==len(data_periods)-1)))
 
         json.dumps(candle)
 
