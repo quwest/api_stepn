@@ -16,7 +16,7 @@ class CandleData():
         interval = {}
         res = []
         start_time = self.list_with_time[0]
-        time_interval = time_interval_minutes * 60 * 980
+        time_interval = time_interval_minutes * 60 * 960
 
         for time in self.list_with_time:
             if time < start_time + time_interval:
