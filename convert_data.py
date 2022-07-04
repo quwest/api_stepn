@@ -16,7 +16,7 @@ class CandleData():
         interval = {}
         res = []
         start_time = self.list_with_time[0]
-        time_interval = time_interval_minutes * 60 * 1100
+        time_interval = time_interval_minutes * 60 * 1010
 
         for time in self.list_with_time:
             if time < start_time + time_interval:
@@ -42,6 +42,8 @@ class CandleData():
             close = list(values)[len(values) - 1]
 
             candle.append([open_time, open, maximum, minimum, close, 0])
+
+        print('all_data: ', len(self.list_with_time), 'periods: ', data_periods)
 
         json.dumps(candle)
 
