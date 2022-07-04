@@ -32,6 +32,7 @@ class CandleData():
 
     def make_candles(self, period: int) -> list:
         data_periods = self.__make_periods(period)
+        print(data_periods)
         candle = []
         for data_period in data_periods:
             values = data_period.values()
