@@ -43,7 +43,7 @@ class CandleData():
 
             candle.append([open_time, open, maximum, minimum, close, 0])
 
-        print('all_data: ', len(self.list_with_time), 'periods: ', data_periods)
+        print('all_data: ', len(self.list_with_time), 'periods: ', len(data_periods), ((len(self.list_with_time)//len(data_periods))==6))
 
         json.dumps(candle)
 
