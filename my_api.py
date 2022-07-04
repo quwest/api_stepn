@@ -13,7 +13,6 @@ class UncorrectTimeframe(ex.HTTPException):
     code = 203
     description = 'timeframe should be in :1m, 2m,5m,15m,30m,1h,2h,8h,1d,1w'
 
-
 class UncorrectId(ex.HTTPException):
     code = 205
     description = f'we do not have this project id, check it in /projects'
@@ -25,7 +24,6 @@ class UncorrectDataFormat(ex.HTTPException):
 class NoData(ex.HTTPException):
     code = 206
     description = 'there is no data from this date'
-
 
 default_exceptions[203] = UncorrectTimeframe
 default_exceptions[205] = UncorrectId
@@ -42,7 +40,7 @@ class Candle(Resource):
         self.db = DB()
         self.ids=self.db.get_all_ids()
 
-    def get(self, project_id: int, timeframe: int, start_time: str, limit: int):
+    def get(self, project_id: int, timeframe: int, start_time: str, limit: int) -> abort or list:
         if project_id not in self.db.get_all_ids():
             return abort(205)
 
@@ -88,7 +86,7 @@ class Candle(Resource):
 
         return candle_data[0:limit]
 
-    def post(self):
+    def post(self) -> reqparse:
         parser = reqparse.RequestParser()
         parser.add_argument("project_id", nullable=False, type=int, trim=True)
         parser.add_argument("price", nullable=False, type=float, trim=True)
@@ -105,7 +103,7 @@ class Projects(Resource):
     def __init__(self):
         self.db = DB()
 
-    def get(self):
+    def get(self) -> jsonify:
         projects = self.db.get_projects()
 
         res_dict = {}
@@ -118,7 +116,7 @@ class Projects(Resource):
         js = jsonify(res_dict)
         return js
 
-    def post(self):
+    def post(self) -> reqparse:
         parser = reqparse.RequestParser()
         parser.add_argument("section", nullable=False, type=str, trim=True)
         parser.add_argument("filters", nullable=False, type=str, trim=True)

@@ -7,6 +7,7 @@ class CandleData():
 
     def __make_dict_from_data(self, list_data: list) -> dict:
         res_dict = {}
+
         for i in list_data:
             res_dict[i[1]] = i[0]
 
@@ -15,6 +16,7 @@ class CandleData():
     def __make_periods(self, time_interval_minutes: int) -> list:
         interval = {}
         res = []
+
         start_time = self.list_with_time[0]
         time_interval = time_interval_minutes * 60 * 960
 
@@ -32,9 +34,8 @@ class CandleData():
 
     def make_candles(self, period: int) -> list:
         data_periods = self.__make_periods(period)
-        for i in data_periods:
-            print(len(i))
         candle = []
+
         for data_period in data_periods:
             values = data_period.values()
             open_time = list(data_period.keys())[0]
