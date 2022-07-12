@@ -13,7 +13,7 @@ class DB():
 
     def get_parsed_values(self, project_id: int, start_time: int) -> list:
         self.cursor.execute(
-            'SELECT projects.section, projects.filters, price, timestamp,chain FROM floor_price INNER JOIN projects ON floor_price.project_id=projects.id WHERE project_id=(?) AND timestamp>=(?) ORDER BY timestamp ASC',
+            'SELECT projects.section, projects.filters, price, timestamp, projects.chain FROM floor_price INNER JOIN projects ON floor_price.project_id=projects.id WHERE project_id=(?) AND timestamp>=(?) ORDER BY timestamp ASC',
             (project_id, start_time))
         data = self.cursor.fetchall()
 
@@ -61,14 +61,14 @@ class DB():
 
         return int(data[0][0])
 
-    def insert_parsed_values(self, project_id: int, price: float, timestamp: int, chain: str) -> None:
-        self.cursor.execute('INSERT INTO floor_price(project_id,price,timestamp,chain) VALUES (?,?,?,?)',
-                            (project_id, price, timestamp, chain))
+    def insert_parsed_values(self, project_id: int, price: float, timestamp: int) -> None:
+        self.cursor.execute('INSERT INTO floor_price(project_id,price,timestamp) VALUES (?,?,?)',
+                            (project_id, price, timestamp))
         self.cnx.commit()
 
-    def insert_project(self, section: str, filters: str) -> int:
+    def insert_project(self, filters: str, chain: str) -> int:
         create_time = int(time.time())
-        self.cursor.execute('INSERT INTO projects(section, filters, create_time) VALUES (?,?,?)', (section, filters, create_time))
+        self.cursor.execute('INSERT INTO projects(filters,chain create_time) VALUES (?,?,?)', (filters, chain, create_time))
         self.cnx.commit()
 
         return self.__get_max_value()

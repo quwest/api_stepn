@@ -91,10 +91,9 @@ class Candle(Resource):
         parser.add_argument("project_id", nullable=False, type=int, trim=True)
         parser.add_argument("price", nullable=False, type=float, trim=True)
         parser.add_argument("timestamp", nullable=False, type=int, trim=True)
-        parser.add_argument("chain", nullable=False, type=str, trim=True)
         params = parser.parse_args()
 
-        self.db.insert_parsed_values(params["project_id"], params["price"], params["timestamp"], params["chain"])
+        self.db.insert_parsed_values(params["project_id"], params["price"], params["timestamp"])
 
         return params
 
@@ -108,27 +107,26 @@ class Projects(Resource):
 
         res_dict = {}
         for project in projects:
-            res_dict[project[0]] = {'section': project[1]}, \
-                                   {'filters': project[2]}, \
-                                   {'chain': self.db.get_chain_value(project[0])}, \
-                                   {'create_time': [project[3], datetime.fromtimestamp(project[3])]},\
-                                   {'is_active': project[4]}
+            res_dict[project[0]] = {'id': project[0]}, \
+                                   {'filters': project[1]}, \
+                                   {'chain': project[3]}, \
+                                   {'create_time': [project[4], datetime.fromtimestamp(project[4])]},\
+                                   {'is_active': project[3]}
         js = jsonify(res_dict)
         return js
 
     def post(self) -> reqparse:
         parser = reqparse.RequestParser()
-        parser.add_argument("section", nullable=False, type=str, trim=True)
         parser.add_argument("filters", nullable=False, type=str, trim=True)
+        parser.add_argument("chain", nullable=False, type=str, trim=True)
         params = parser.parse_args()
-        self.db.insert_project(params["section"], params["filters"])
+        self.db.insert_project(params["filters"], params["chain"])
 
         return params
 
 
 api.add_resource(Candle, "/candle-data/<int:project_id>/<string:timeframe>/<string:start_time>/<int:limit>",
                  '/candle-data')
-
 api.add_resource(Projects, '/projects', '/projects')
 
 if __name__ == '__main__':
