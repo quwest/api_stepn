@@ -112,6 +112,7 @@ class Projects(Resource):
                                    {'chain': project[3]}, \
                                    {'create_time': [project[4], datetime.fromtimestamp(project[4])]},\
                                    {'is_active': project[3]}
+            print(project)
         js = jsonify(res_dict)
         return js
 
