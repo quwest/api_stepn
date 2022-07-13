@@ -56,7 +56,7 @@ class Candle(Resource):
         if not full_data:
             return abort(207)
 
-        price_and_time = [i[2:4] for i in full_data]
+        price_and_time = [i[1:3] for i in full_data]
         print(price_and_time)
         candle = CandleData(price_and_time)
 
