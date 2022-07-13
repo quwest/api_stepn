@@ -108,8 +108,7 @@ class Projects(Resource):
         res_dict = {}
         for project in projects:
             print(project)
-            res_dict[project[0]] = {'id': project[0]}, \
-                                   {'filters': project[1].decode('utf-8'),}, \
+            res_dict[project[0]] = {'filters': project[1].decode('utf-8'),}, \
                                    {'chain': project[3]}, \
                                    {'create_time': [project[4], datetime.fromtimestamp(project[4])]},\
                                    {'is_active': project[3]}
