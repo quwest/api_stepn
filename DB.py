@@ -19,25 +19,6 @@ class DB():
 
         return data
 
-    def get_chain_value(self, project_id: int) -> str:
-        self.cursor.execute('SELECT chain FROM floor_price WHERE project_id=(?) LIMIT 1', (project_id,))
-        data = self.cursor.fetchall()
-
-        try:
-            return data[0][0]
-        except IndexError:
-            return ''
-
-    def get_project_id(self, section: str, filters: str) -> int:
-        data = self.get_projects()
-        for i in data:
-            if section == i[1] and filters == i[2]:
-                return int(i[0])
-
-        project_id = self.insert_project(section, filters)
-
-        return project_id
-
     def get_projects(self) -> list:
         self.cursor.execute('SELECT * FROM projects')
         data = self.cursor.fetchall()
