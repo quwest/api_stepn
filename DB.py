@@ -13,7 +13,7 @@ class DB():
 
     def get_parsed_values(self, project_id: int, start_time: int) -> list:
         self.cursor.execute(
-            'SELECT projects.section, projects.filters, price, timestamp, projects.chain FROM floor_price INNER JOIN projects ON floor_price.project_id=projects.id WHERE project_id=(?) AND timestamp>=(?) ORDER BY timestamp ASC',
+            'SELECT projects.filters, price, timestamp, projects.chain FROM floor_price INNER JOIN projects ON floor_price.project_id=projects.id WHERE project_id=(?) AND timestamp>=(?) ORDER BY timestamp ASC',
             (project_id, start_time))
         data = self.cursor.fetchall()
 
