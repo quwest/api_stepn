@@ -57,6 +57,7 @@ class Candle(Resource):
             return abort(207)
 
         price_and_time = [i[2:4] for i in full_data]
+        print(price_and_time)
         candle = CandleData(price_and_time)
 
         if timeframe ==  '1m':
@@ -107,7 +108,6 @@ class Projects(Resource):
 
         res_dict = {}
         for project in projects:
-            print(project)
             res_dict[project[0]] = {'filters': json.loads(project[1].decode('utf-8')),}, \
                                    {'chain': project[3]}, \
                                    {'create_time': [project[4], datetime.fromtimestamp(project[4])]},\
